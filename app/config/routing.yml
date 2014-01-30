@@ -1,0 +1,5 @@
+dc3_instawall:
+    resource: "@DC3InstawallBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
