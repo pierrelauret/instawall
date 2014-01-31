@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Pic list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Url</th>
+                <th>Likecount</th>
+                <th>Comment</th>
+                <th>Username</th>
+                <th>Userpic</th>
+                <th>Created</th>
+                <th>Pictureid</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('pic_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.url }}</td>
+                <td>{{ entity.likeCount }}</td>
+                <td>{{ entity.comment }}</td>
+                <td>{{ entity.userName }}</td>
+                <td>{{ entity.userPic }}</td>
+                <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.pictureId }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('pic_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('pic_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('pic_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
