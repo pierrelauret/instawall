@@ -1,6 +1,18 @@
 {% extends '::base.html.twig' %}
 
-{% block body -%}
+{% block stylesheets %}
+{% stylesheets
+    '@DC3InstawallBundle/Resources/public/css/normalize.css'
+    '@DC3InstawallBundle/Resources/public/css/demo.css'
+    '@DC3InstawallBundle/Resources/public/css/component.css' 
+	filter='cssrewrite'
+%}
+		<link href="{{ asset_url }}" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block body %}
+<!--
     <h1>Event</h1>
 
     <table class="record_properties">
@@ -49,4 +61,113 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
+-->
+<div class="container">			
+	<p id="loadstate">Chargement</p>
+<!-- 	<div class="htag" style="display:none;" >#{{ entity.hTag }}</div> -->
+	<section style="display:none;" id="photostack-1" class="photostack ">
+		<div>
+		{% for pic in pics %}
+				<figure>	
+					<img id="{{ pic.id }}" src="{{ pic.url }}" alt="img01"/>	
+					<figcaption>
+						<p class="photostack-title"><img src="{{ pic.userPic }}" alt="userpic"><span id="name">{{ pic.userName }}</span><span id="like">{{ pic.likeCount }} j'aime</span></p>
+					</figcaption>
+				</figure>
+		{% endfor %}
+		</div>
+	</section>
+</div>
+{% endblock %}
+
+{% block photostack %}
+<script>
+
+// supprime les images non chargés
+
+$( "img" ).load().error(function() {
+  	
+    $( this ).parent( 'figure' ).remove();	
+    	    
+});
+
+// affiche le chargement des images
+
+$(window).load(function() {
+    
+    $(window).resize(function () {location.reload();});
+    
+    var maxHeight = $(window).height();
+    
+    $( ".photostack" ).css( "height", maxHeight );
+    
+    $( '#loadstate' ).hide(); // chargement
+    
+    $( 'div section, .htag' ).show();		 
+    
+    
+    
+   var photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
+   		start:'last',
+	   callback : function (item) {
+		   console.log(item);
+	   }
+   });    
+    
+    
+   function reload(){
+   		var IsNewImage = false;
+	   	$.ajax ({
+	   		type : "GET",
+		 	url: "{{ path('event_refresh', { 'id': entity.id }) }}",
+		 	dataType : "json"
+		 }).done(function(resp) {
+	 		data = resp.pics;
+	 		
+		 	for(i=0;i<data.length;i++){
+			 	
+			 	if ($("img[src$='"+data[i].URL+"']").length==0){
+			 	IsNewImage = true;
+				 	var newFigure = $('<figure><img src="'+data[i].URL+'" alt="img01"><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span id="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
+				 	newFigure.hide();				 	
+					$('#photostack-1 div').append(newFigure);
+					
+					load_counter = 0;
+					$.each(newFigure.find('img'), function(i, item) {
+					    $(item).load(function() {
+					        load_counter ++;
+					        if (load_counter == newFigure.find('img').length) {
+					            // all items have loaded
+								newFigure.fadeIn();
+								delete photostack;
+								photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
+						   			start:'last'
+						   		});
+						   		
+					        }
+					    })
+					})
+					
+					break;
+			 	} else {
+			 		console.log('image existe');				 				 		
+			 	}
+		 	}
+		 	if (!IsNewImage) {
+			 	photostack.open(Math.floor(Math.random() * photostack.getItems().length));
+		 	}		 		
+		 	setTimeout(reload, 10000);
+	 	});
+		 	
+	}
+	
+	reload();
+});
+
+
+
+
+
+
+</script>
 {% endblock %}

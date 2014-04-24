@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use DC3\InstawallBundle\Entity\Event;
 use DC3\InstawallBundle\Form\EventType;
+use Symfony\Component\HttpFoundation\Response;
+use DC3\InstawallBundle\Entity\Pic;
 
 /**
  * Event controller.
@@ -111,6 +113,17 @@ class EventController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('DC3InstawallBundle:Event')->find($id);
+        
+        // pour order les pic by la date
+        
+        $pics = $em->getRepository("DC3InstawallBundle:Pic")
+            ->createQueryBuilder("p")
+            ->where('p.event = :event')
+			->setParameter('event',$entity)
+			->orderBy('p.created', 'ASC')
+			->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Event entity.');
@@ -120,8 +133,162 @@ class EventController extends Controller
 
         return array(
             'entity'      => $entity,
+            'pics' => $pics,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+    
+    /**
+     * Finds and displays a Event entity.
+     *
+     * @Route("/{id}/refresh", name="event_refresh")
+     * @Method("GET")
+     * @Template()
+     */
+    public function refreshAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('DC3InstawallBundle:Event')->find($id);
+        
+        $countNew = $this->getInstagramPics($entity);
+        $em->refresh($entity);
+        // pour order les pic by la date
+        
+        $pics = $em->getRepository("DC3InstawallBundle:Pic")
+            ->createQueryBuilder("p")
+            ->where('p.event = :event')
+			->setParameter('event',$entity)
+			->orderBy('p.created', 'DESC')
+			->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Event entity.');
+        }
+
+		$PicArray = array();
+		
+		foreach($pics as $pic) {
+			
+			$PicTempArray['URL'] = $pic->getUrl();
+			$PicTempArray['ID'] = $pic->getPictureId();
+			$PicTempArray['USERPIC'] = $pic->getUserPic();
+			$PicTempArray['USERNAME'] = $pic->getUserName();
+			$PicTempArray['LIKES'] = $pic->getLikeCount();
+			
+			
+			$PicArray[] = $PicTempArray;
+			
+		}
+		
+		$response = array('count_new' => $countNew, 'pics' => $PicArray);
+		
+        return new Response(json_encode($response));
+       
+     }
+     
+    protected function getInstagramPics($event)
+    {
+    	$em = $this->getDoctrine()->getManager();
+    	
+    	$eventid = $event->getId();
+        $tag = $event->getHTag();
+        $lng = $event->getLng();
+        $lat = $event->getLat();
+         
+         
+        $Insta = new \Instagram(array(
+			'apiKey'=>'087c4dedc9e942179d973ba767648488',
+			'apiSecret'=>'f83ef66f9cd3494db572c70705a341c7',
+			'apiCallback'=>'http://intagram.nicolasa.dc3'
+		));
+		$count = 0;
+		
+		$pics_location = $Insta->searchMedia($lat, $lng, 500);
+		if(isset($pics_location->data)) {
+			
+			foreach ($pics_location->data as $pic) {
+				
+				$like_count = $pic->likes->count;
+				$url = $pic->images->low_resolution->url; // qualité de l'image
+				$comment = '';
+				if(isset($pic->caption->text) && !empty($pic->caption->text)){
+					$comment = $pic->caption->text;
+				}
+				$user_name = $pic->user->username;
+				$user_pic = $pic->user->profile_picture;
+				$picture_id = $pic->id;
+				$created_time = new \Datetime(); // Attention format timestamp
+				$created_time->setTimestamp($pic->created_time); 
+				
+				$picObject = $em->getRepository("DC3InstawallBundle:Pic")
+				->createQueryBuilder("p")
+				->where('p.pictureId = :picture_id')
+				->setParameter('picture_id',$picture_id)
+				->getQuery()
+				->getResult();
+				
+				if (!$picObject) {
+					$count++;
+					$instpic = new Pic();
+					$instpic->setUrl($url);
+					$instpic->setLikeCount($like_count);
+					$instpic->setComment($comment);
+					$instpic->setUserName($user_name);
+					$instpic->setUserPic($user_pic);
+					$instpic->setCreated($created_time);
+					$instpic->setPictureId($picture_id);
+					$instpic->setEvent($event);
+					$em->persist($instpic);	
+				}
+				
+			}
+		}
+
+		$pics_tag = $Insta->searchMediaByTag($tag);
+
+		if(isset($pics_tag->data)) {
+			foreach ($pics_tag->data as $pic) {
+				$like_count = $pic->likes->count;
+				$url = $pic->images->low_resolution->url;
+				$comment = '';
+				if(isset($pic->caption->text) && !empty($pic->caption->text)){
+					$comment = $pic->caption->text;
+				}
+				$user_name = $pic->user->username;
+				$user_pic = $pic->user->profile_picture;
+				$picture_id = $pic->id;
+				$created_time = new \Datetime(); // Attention format timestamp
+				$created_time->setTimestamp($pic->created_time); 
+											
+				$picObject = $em->getRepository("DC3InstawallBundle:Pic")
+				->createQueryBuilder("p")
+				->where('p.pictureId = :picture_id')
+				->setParameter('picture_id',$picture_id)
+				->getQuery()
+				->getResult();
+				
+				if (!$picObject) {
+					$count++;
+					$instpic = new Pic();
+					$instpic->setUrl($url);
+					$instpic->setLikeCount($like_count);
+					$instpic->setComment($comment);
+					$instpic->setUserName($user_name);
+					$instpic->setUserPic($user_pic);
+					$instpic->setCreated($created_time);
+					$instpic->setPictureId($picture_id);
+					$instpic->setEvent($event);
+					$em->persist($instpic);	
+				};
+			}
+		}
+		
+		$em->flush();
+		
+		return $count;
     }
 
     /**

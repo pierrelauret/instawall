@@ -14,6 +14,7 @@
                 <th>Userpic</th>
                 <th>Created</th>
                 <th>Pictureid</th>
+                <th>Event</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -28,6 +29,7 @@
                 <td>{{ entity.userPic }}</td>
                 <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>{{ entity.pictureId }}</td>
+                <td>{{ entity.event.titre }}</td>
                 <td>
                 <ul>
                     <li>

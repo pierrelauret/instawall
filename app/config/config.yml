@@ -33,7 +33,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ ]
+    bundles:        [DC3InstawallBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
@@ -67,3 +67,17 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+    
+    
+# ...
+
+parameters:
+
+    DC3.twig_extension.class: DC3\InstawallBundle\Services\Extension\TwigExtension
+
+services:
+
+    DC3.twig_extension:
+        class: %DC3.twig_extension.class%
+        tags:
+            - { name: twig.extension }

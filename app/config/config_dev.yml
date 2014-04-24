@@ -31,6 +31,9 @@ monolog:
 
 assetic:
     use_controller: true
+    bundles:        [DC3InstawallBundle]
+    filters:
+        cssrewrite: ~
 
 #swiftmailer:
 #    delivery_address: me@example.com

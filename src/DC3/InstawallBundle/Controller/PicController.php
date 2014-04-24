@@ -123,6 +123,37 @@ class PicController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+    
+    /**
+     * Finds and displays a Pic entity.
+     *
+     * @Route("/{id}/instagram-update", name="pic_instagram_update")
+     * @Method("GET")
+     * @Template()
+     */
+    public function instagramUpdateAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository('DC3InstawallBundle:Pic')->find($id);
+
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find Pic entity.');
+        }
+        
+        $Insta = new \Instagram(array(
+			'apiKey'=>'087c4dedc9e942179d973ba767648488',
+			'apiSecret'=>'f83ef66f9cd3494db572c70705a341c7',
+			'apiCallback'=>'http://intagram.nicolasa.dc3'
+		));
+		
+		$resp = $Insta->getMedia($entity->getPictureId());
+		var_dump($resp);
+
+        return array(
+            'entity'      => $entity
+        );
+    }
 
     /**
      * Displays a form to edit an existing Pic entity.
