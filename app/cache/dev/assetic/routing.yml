@@ -1,5 +1,0 @@
-_assetic:
-    resource: .
-    type: assetic
-_app:
-    resource: /home/pierrel/apps/instawall/app/config/routing_dev.yml
