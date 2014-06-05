@@ -2,81 +2,38 @@
 
 {% block stylesheets %}
 {% stylesheets
-    '@DC3InstawallBundle/Resources/public/css/normalize.css'
-    '@DC3InstawallBundle/Resources/public/css/demo.css'
-    '@DC3InstawallBundle/Resources/public/css/component.css' 
-	filter='cssrewrite'
+    'bundles/dc3instawall/css/normalize.css'
+    'bundles/dc3instawall/css/demo.css'
+    'bundles/dc3instawall/css/component.css'
+    filter='cssrewrite'
+ 
 %}
 		<link href="{{ asset_url }}" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
-<!--
-    <h1>Event</h1>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ entity.titre }}</td>
-            </tr>
-            <tr>
-                <th>Startdate</th>
-                <td>{{ entity.startDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Enddate</th>
-                <td>{{ entity.endDate|date('Y-m-d H:i:s') }}</td>
-            </tr>
-            <tr>
-                <th>Htag</th>
-                <td>{{ entity.hTag }}</td>
-            </tr>
-            <tr>
-                <th>Lng</th>
-                <td>{{ entity.lng }}</td>
-            </tr>
-            <tr>
-                <th>Lat</th>
-                <td>{{ entity.lat }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('event') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('event_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
--->
-<div class="container">			
-	<p id="loadstate">Chargement</p>
+<div class="container">	
+	<div class="loadconteneur">
+		<div id="loadstate" class="loader">
+		<p>Chargement</p>
+		</div>	
+	</div>
 <!-- 	<div class="htag" style="display:none;" >#{{ entity.hTag }}</div> -->
 	<section style="display:none;" id="photostack-1" class="photostack ">
 		<div>
 		{% for pic in pics %}
-				<figure>	
+				<figure data-picid="{{ pic.id }}">	
 					<img id="{{ pic.id }}" src="{{ pic.url }}" alt="img01"/>	
 					<figcaption>
-						<p class="photostack-title"><img src="{{ pic.userPic }}" alt="userpic"><span id="name">{{ pic.userName }}</span><span id="like">{{ pic.likeCount }} j'aime</span></p>
+						<p class="photostack-title"><img src="{{ pic.userPic }}" alt="userpic"><span id="name">{{ pic.userName }}</span><span class="like">{{ pic.likeCount }} j'aime</span></p>
 					</figcaption>
 				</figure>
 		{% endfor %}
 		</div>
 	</section>
+	<div class="htag">#{{ entity.hTag }}</div>
 </div>
 {% endblock %}
 
@@ -101,21 +58,58 @@ $(window).load(function() {
     
     $( ".photostack" ).css( "height", maxHeight );
     
-    $( '#loadstate' ).hide(); // chargement
+    $( '#loadconteneur' ).hide(); // chargement
     
     $( 'div section, .htag' ).show();		 
-    
     
     
    var photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
    		start:'last',
 	   callback : function (item) {
-		   console.log(item);
 	   }
    });    
-    
-    
-   function reload(){
+   
+   
+/*
+   function randomInt(mini, maxi) {
+		var nb = mini + (maxi+1-mini)*Math.random();
+		return Math.floor(nb);
+	}
+	
+	Array.prototype.shuffle = function(n)
+	{
+		if(!n)
+			n = this.length;
+		if(n > 1)
+		{
+			var i = randomInt(0, n-1);
+			var tmp = this[i];
+			this[i] = this[n-1];
+			this [n-1] = tmp;
+			this.shuffle(n-1);
+		}
+	}
+*/
+	
+/*
+	var values = [];
+	function newChainRandom(){
+		
+	
+		for (var i = 0; i < photostack.getItems().length; ++i){
+	    values.push(i);
+		}
+		
+		//values.shuffle();
+		console.log(values);
+	}
+*/
+	
+
+   function reload(b){
+   	
+
+		console.log(photostack.getItems().length);
    		var IsNewImage = false;
 	   	$.ajax ({
 	   		type : "GET",
@@ -128,8 +122,15 @@ $(window).load(function() {
 			 	
 			 	if ($("img[src$='"+data[i].URL+"']").length==0){
 			 	IsNewImage = true;
-				 	var newFigure = $('<figure><img src="'+data[i].URL+'" alt="img01"><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span id="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
-				 	newFigure.hide();				 	
+			 		console.log('image  no existe');
+				 	var newFigure = $('<figure data-picid="'+data[i].PICID+'"><img src="'+data[i].URL+'" alt="img01"><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span class="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
+				 	newFigure.hide();
+				 		
+				 	
+				 	var figures = $('#photostack-1 div figure');
+				 	console.log(figures);
+				 	figures[0].remove();		 	
+				 	console.log(figures.length);
 					$('#photostack-1 div').append(newFigure);
 					
 					load_counter = 0;
@@ -143,25 +144,70 @@ $(window).load(function() {
 								photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
 						   			start:'last'
 						   		});
-						   		
+						   		setTimeout(reload, 1000);
+
 					        }
-					    })
+					    });
 					})
-					
 					break;
 			 	} else {
 			 		console.log('image existe');				 				 		
 			 	}
 		 	}
+		 	
+		 	
+		 	
 		 	if (!IsNewImage) {
-			 	photostack.open(Math.floor(Math.random() * photostack.getItems().length));
-		 	}		 		
-		 	setTimeout(reload, 10000);
+		 		
+		
+	
+		
+				console.log('search images');
+				
+			 	var randomImage = randomImagePS(photostack);
+			 			 					
+				console.log(randomImage);
+				console.log(photostack.getCurrentItem());
+			 	var imageShow = $(photostack.getItem(randomImage));		 	
+			 	var picid = imageShow.data('picid');
+			 	$.ajax ({
+			   		type : "GET",
+				 	url: "/app_dev.php/pic/"+picid +"/instagram-update",
+				 	dataType : "json"
+			 	}).done(function(data) {
+				 	imageShow.find('.like').html(data.LIKES+' j\'aime');
+				 	photostack.open(randomImage);
+				 	setTimeout(reload, 1000);
+
+
+			 	}).error(function(){
+				 	//setTimeout(reload, 1000);
+			 	});
+			 	
+
+
+		 	}	
 	 	});
+
 		 	
 	}
 	
-	reload();
+
+	reload(0);
+	
+	function randomImagePS(ps){
+		var randomImage = Math.floor(Math.random() * ps.getItems().length);
+		
+		if(randomImage == photostack.getCurrentItem()) {
+			console.log('same');
+			return randomImagePS(ps); 	
+		}
+		else {
+			return randomImage;
+		}
+		
+	}
+	
 });
 
 

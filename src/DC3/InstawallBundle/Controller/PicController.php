@@ -9,6 +9,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use DC3\InstawallBundle\Entity\Pic;
 use DC3\InstawallBundle\Form\PicType;
+use Symfony\Component\HttpFoundation\Response;
+
 
 /**
  * Pic controller.
@@ -125,7 +127,7 @@ class PicController extends Controller
     }
     
     /**
-     * Finds and displays a Pic entity.
+     * Finds and update instagram information.
      *
      * @Route("/{id}/instagram-update", name="pic_instagram_update")
      * @Method("GET")
@@ -147,12 +149,19 @@ class PicController extends Controller
 			'apiCallback'=>'http://intagram.nicolasa.dc3'
 		));
 		
-		$resp = $Insta->getMedia($entity->getPictureId());
-		var_dump($resp);
-
-        return array(
-            'entity'      => $entity
-        );
+		$resp = $Insta->getMedia($entity->getPictureId());		
+		$like_count = $resp->data->likes->count;
+		$entity->setLikeCount($like_count);
+		$em->persist($entity);
+		$em->flush(); // sauvegarde moi les données dans la base de donnée
+		
+		$PicTempArray['URL'] = $entity->getUrl();
+		$PicTempArray['ID'] = $entity->getPictureId();
+		$PicTempArray['USERPIC'] = $entity->getUserPic();
+		$PicTempArray['USERNAME'] = $entity->getUserName();
+		$PicTempArray['LIKES'] = $entity->getLikeCount();
+		
+		return new Response(json_encode($PicTempArray));
     }
 
     /**

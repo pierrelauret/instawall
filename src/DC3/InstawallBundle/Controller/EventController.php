@@ -121,7 +121,7 @@ class EventController extends Controller
             ->where('p.event = :event')
 			->setParameter('event',$entity)
 			->orderBy('p.created', 'ASC')
-			->setMaxResults(50)
+			->setMaxResults(100)
             ->getQuery()
             ->getResult();
 
@@ -173,6 +173,7 @@ class EventController extends Controller
 		foreach($pics as $pic) {
 			
 			$PicTempArray['URL'] = $pic->getUrl();
+			$PicTempArray['PICID'] = $pic->getId();
 			$PicTempArray['ID'] = $pic->getPictureId();
 			$PicTempArray['USERPIC'] = $pic->getUserPic();
 			$PicTempArray['USERNAME'] = $pic->getUserName();
@@ -217,6 +218,8 @@ class EventController extends Controller
 				if(isset($pic->caption->text) && !empty($pic->caption->text)){
 					$comment = $pic->caption->text;
 				}
+				
+			    
 				$user_name = $pic->user->username;
 				$user_pic = $pic->user->profile_picture;
 				$picture_id = $pic->id;

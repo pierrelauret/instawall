@@ -27,26 +27,55 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
         $context = $this->context;
         $request = $this->request;
 
-        if (0 === strpos($pathinfo, '/css/2f2299d')) {
-            // _assetic_2f2299d
-            if ($pathinfo === '/css/2f2299d.css') {
-                return array (  '_controller' => 'assetic.controller:render',  'name' => '2f2299d',  'pos' => NULL,  '_format' => 'css',  '_route' => '_assetic_2f2299d',);
+        if (0 === strpos($pathinfo, '/css')) {
+            if (0 === strpos($pathinfo, '/css/176018e')) {
+                // _assetic_176018e
+                if ($pathinfo === '/css/176018e.css') {
+                    return array (  '_controller' => 'assetic.controller:render',  'name' => '176018e',  'pos' => NULL,  '_format' => 'css',  '_route' => '_assetic_176018e',);
+                }
+
+                if (0 === strpos($pathinfo, '/css/176018e_')) {
+                    // _assetic_176018e_0
+                    if ($pathinfo === '/css/176018e_normalize_1.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => '176018e',  'pos' => 0,  '_format' => 'css',  '_route' => '_assetic_176018e_0',);
+                    }
+
+                    // _assetic_176018e_1
+                    if ($pathinfo === '/css/176018e_demo_2.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => '176018e',  'pos' => 1,  '_format' => 'css',  '_route' => '_assetic_176018e_1',);
+                    }
+
+                    // _assetic_176018e_2
+                    if ($pathinfo === '/css/176018e_component_3.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => '176018e',  'pos' => 2,  '_format' => 'css',  '_route' => '_assetic_176018e_2',);
+                    }
+
+                }
+
             }
 
-            if (0 === strpos($pathinfo, '/css/2f2299d_')) {
-                // _assetic_2f2299d_0
-                if ($pathinfo === '/css/2f2299d_normalize_1.css') {
-                    return array (  '_controller' => 'assetic.controller:render',  'name' => '2f2299d',  'pos' => 0,  '_format' => 'css',  '_route' => '_assetic_2f2299d_0',);
+            if (0 === strpos($pathinfo, '/css/a6032a6')) {
+                // _assetic_a6032a6
+                if ($pathinfo === '/css/a6032a6.css') {
+                    return array (  '_controller' => 'assetic.controller:render',  'name' => 'a6032a6',  'pos' => NULL,  '_format' => 'css',  '_route' => '_assetic_a6032a6',);
                 }
 
-                // _assetic_2f2299d_1
-                if ($pathinfo === '/css/2f2299d_demo_2.css') {
-                    return array (  '_controller' => 'assetic.controller:render',  'name' => '2f2299d',  'pos' => 1,  '_format' => 'css',  '_route' => '_assetic_2f2299d_1',);
-                }
+                if (0 === strpos($pathinfo, '/css/a6032a6_')) {
+                    // _assetic_a6032a6_0
+                    if ($pathinfo === '/css/a6032a6_normalize_1.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => 'a6032a6',  'pos' => 0,  '_format' => 'css',  '_route' => '_assetic_a6032a6_0',);
+                    }
 
-                // _assetic_2f2299d_2
-                if ($pathinfo === '/css/2f2299d_component_3.css') {
-                    return array (  '_controller' => 'assetic.controller:render',  'name' => '2f2299d',  'pos' => 2,  '_format' => 'css',  '_route' => '_assetic_2f2299d_2',);
+                    // _assetic_a6032a6_1
+                    if ($pathinfo === '/css/a6032a6_demo_2.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => 'a6032a6',  'pos' => 1,  '_format' => 'css',  '_route' => '_assetic_a6032a6_1',);
+                    }
+
+                    // _assetic_a6032a6_2
+                    if ($pathinfo === '/css/a6032a6_component_3.css') {
+                        return array (  '_controller' => 'assetic.controller:render',  'name' => 'a6032a6',  'pos' => 2,  '_format' => 'css',  '_route' => '_assetic_a6032a6_2',);
+                    }
+
                 }
 
             }
@@ -519,79 +548,6 @@ class appDevUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirectab
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'queue_delete')), array (  '_controller' => 'DC3\\InstawallBundle\\Controller\\QueueController::deleteAction',));
             }
             not_queue_delete:
-
-        }
-
-        // _welcome
-        if (rtrim($pathinfo, '/') === '') {
-            if (substr($pathinfo, -1) !== '/') {
-                return $this->redirect($pathinfo.'/', '_welcome');
-            }
-
-            return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\WelcomeController::indexAction',  '_route' => '_welcome',);
-        }
-
-        if (0 === strpos($pathinfo, '/demo')) {
-            if (0 === strpos($pathinfo, '/demo/secured')) {
-                if (0 === strpos($pathinfo, '/demo/secured/log')) {
-                    if (0 === strpos($pathinfo, '/demo/secured/login')) {
-                        // _demo_login
-                        if ($pathinfo === '/demo/secured/login') {
-                            return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::loginAction',  '_route' => '_demo_login',);
-                        }
-
-                        // _security_check
-                        if ($pathinfo === '/demo/secured/login_check') {
-                            return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::securityCheckAction',  '_route' => '_security_check',);
-                        }
-
-                    }
-
-                    // _demo_logout
-                    if ($pathinfo === '/demo/secured/logout') {
-                        return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::logoutAction',  '_route' => '_demo_logout',);
-                    }
-
-                }
-
-                if (0 === strpos($pathinfo, '/demo/secured/hello')) {
-                    // acme_demo_secured_hello
-                    if ($pathinfo === '/demo/secured/hello') {
-                        return array (  'name' => 'World',  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',  '_route' => 'acme_demo_secured_hello',);
-                    }
-
-                    // _demo_secured_hello
-                    if (preg_match('#^/demo/secured/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-                        return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_secured_hello')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloAction',));
-                    }
-
-                    // _demo_secured_hello_admin
-                    if (0 === strpos($pathinfo, '/demo/secured/hello/admin') && preg_match('#^/demo/secured/hello/admin/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-                        return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_secured_hello_admin')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\SecuredController::helloadminAction',));
-                    }
-
-                }
-
-            }
-
-            // _demo
-            if (rtrim($pathinfo, '/') === '/demo') {
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', '_demo');
-                }
-
-                return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::indexAction',  '_route' => '_demo',);
-            }
-
-            // _demo_hello
-            if (0 === strpos($pathinfo, '/demo/hello') && preg_match('#^/demo/hello/(?P<name>[^/]++)$#s', $pathinfo, $matches)) {
-                return $this->mergeDefaults(array_replace($matches, array('_route' => '_demo_hello')), array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::helloAction',));
-            }
-
-            // _demo_contact
-            if ($pathinfo === '/demo/contact') {
-                return array (  '_controller' => 'Acme\\DemoBundle\\Controller\\DemoController::contactAction',  '_route' => '_demo_contact',);
-            }
 
         }
 

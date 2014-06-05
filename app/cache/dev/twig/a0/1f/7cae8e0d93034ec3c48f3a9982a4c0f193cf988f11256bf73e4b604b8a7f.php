@@ -52,7 +52,7 @@ class __TwigTemplate_a01f7cae8e0d93034ec3c48f3a9982a4c0f193cf988f11256bf73e4b604
         if (isset($context['assetic']['debug']) && $context['assetic']['debug']) {
             // asset "264d38f_0"
             $context["asset_url"] = isset($context['assetic']['use_controller']) && $context['assetic']['use_controller'] ? $this->env->getExtension('routing')->getPath("_assetic_264d38f_0") : $this->env->getExtension('assets')->getAssetUrl("_controller/js/264d38f_modernizr.min_1.js");
-            // line 29
+            // line 30
             echo "\t\t    <script src=\"";
             echo twig_escape_filter($this->env, (isset($context["asset_url"]) ? $context["asset_url"] : $this->getContext($context, "asset_url")), "html", null, true);
             echo "\"></script>
@@ -84,23 +84,23 @@ class __TwigTemplate_a01f7cae8e0d93034ec3c48f3a9982a4c0f193cf988f11256bf73e4b604
 \t\t";
         }
         unset($context["asset_url"]);
-        // line 30
+        // line 31
         echo "\t
     </head>
     <body style screen_capture_injected=\"true\">
 \t   
 \t\t    ";
-        // line 34
-        $this->displayBlock('body', $context, $blocks);
         // line 35
+        $this->displayBlock('body', $context, $blocks);
+        // line 36
         echo "     
         <script src=\"https://code.jquery.com/jquery.js\"></script>
         ";
-        // line 37
+        // line 38
         if (isset($context['assetic']['debug']) && $context['assetic']['debug']) {
             // asset "47493b0_0"
             $context["asset_url"] = isset($context['assetic']['use_controller']) && $context['assetic']['use_controller'] ? $this->env->getExtension('routing')->getPath("_assetic_47493b0_0") : $this->env->getExtension('assets')->getAssetUrl("_controller/js/47493b0_main_1.js");
-            // line 42
+            // line 43
             echo "\t\t    <script src=\"";
             echo twig_escape_filter($this->env, (isset($context["asset_url"]) ? $context["asset_url"] : $this->getContext($context, "asset_url")), "html", null, true);
             echo "\"></script>
@@ -126,10 +126,10 @@ class __TwigTemplate_a01f7cae8e0d93034ec3c48f3a9982a4c0f193cf988f11256bf73e4b604
 \t\t";
         }
         unset($context["asset_url"]);
-        // line 44
+        // line 45
         echo "\t\t";
         $this->displayBlock('photostack', $context, $blocks);
-        // line 45
+        // line 46
         echo "    </body>
 </html>
 ";
@@ -172,12 +172,12 @@ class __TwigTemplate_a01f7cae8e0d93034ec3c48f3a9982a4c0f193cf988f11256bf73e4b604
     {
     }
 
-    // line 34
+    // line 35
     public function block_body($context, array $blocks = array())
     {
     }
 
-    // line 44
+    // line 45
     public function block_photostack($context, array $blocks = array())
     {
     }
@@ -194,6 +194,6 @@ class __TwigTemplate_a01f7cae8e0d93034ec3c48f3a9982a4c0f193cf988f11256bf73e4b604
 
     public function getDebugInfo()
     {
-        return array (  181 => 44,  176 => 34,  171 => 23,  167 => 15,  153 => 13,  148 => 9,  145 => 8,  139 => 5,  133 => 45,  130 => 44,  104 => 42,  100 => 37,  96 => 35,  94 => 34,  88 => 30,  56 => 29,  51 => 24,  49 => 23,  38 => 16,  36 => 8,  24 => 1,  236 => 122,  196 => 84,  193 => 83,  186 => 78,  172 => 74,  165 => 72,  162 => 71,  158 => 70,  152 => 67,  144 => 62,  137 => 58,  129 => 53,  119 => 46,  112 => 42,  105 => 38,  98 => 34,  91 => 30,  84 => 26,  77 => 22,  68 => 15,  65 => 14,  37 => 10,  33 => 4,  30 => 5,);
+        return array (  181 => 45,  176 => 35,  171 => 23,  167 => 15,  153 => 13,  148 => 9,  145 => 8,  139 => 5,  133 => 46,  130 => 45,  104 => 43,  100 => 38,  96 => 36,  94 => 35,  88 => 31,  56 => 30,  51 => 24,  49 => 23,  38 => 16,  36 => 8,  24 => 1,  236 => 123,  196 => 85,  193 => 84,  186 => 79,  172 => 75,  165 => 73,  162 => 72,  158 => 71,  152 => 68,  144 => 63,  137 => 59,  129 => 54,  119 => 47,  112 => 43,  105 => 39,  98 => 35,  91 => 31,  84 => 27,  77 => 23,  68 => 16,  65 => 15,  37 => 11,  33 => 4,  30 => 5,);
     }
 }

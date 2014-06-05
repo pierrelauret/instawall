@@ -1,4 +1,5 @@
 
+@import url(http://fonts.googleapis.com/css?family=Asap:700,700italic);
 
 *, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
@@ -8,9 +9,82 @@ body {
 	font-weight: 400;
 	font-size: 1em;
 	font-family: 'Lato', Arial, sans-serif;
-	background-image:url('../images/chalkboard.jpg');
-	background-repeat:repeat-y;
 }
+
+
+/* POUR LA SPRITE DU LOADER */
+
+
+	div.loadconteneur {
+	  text-align: center;
+	  height: 100%;
+	  left: 0;
+	  position: absolute;
+	  top: 0;
+	  width: 100%;
+	}
+	
+	.loader {
+	  text-align: center;
+	  top: 50%;
+	  margin: auto auto;
+	  background-image: url('../images/sprite.png');
+	  width: 250px;
+	  height: 250px;
+	  margin-top: -125px;
+	  position: relative;
+	  background-position: 0 0;
+	  -webkit-animation:loadv 3s steps(6) infinite,loadh .5s steps(8) infinite ;
+  }
+  
+  .loader p {
+  	  font-family: 'Asap', 'sans-serif';
+	  position: absolute;
+	  bottom: 0;
+	  width: 100%;
+	  display: block;
+	  margin-left: -6px;
+  }
+  
+
+  @-webkit-keyframes  loadv {
+	  0%   { background-position-y: 0; }
+	  100% { background-position-y: -1500px; }
+  }
+  
+  @-webkit-keyframes  loadh {
+	  0%   { background-position-x: 0; }
+	  100% { background-position-x: -2000px; }
+  }
+
+
+
+
+/* IMAGE BACKGROUND */
+
+.container section{
+	background-image:url('../images/hodgepodge.png');
+	background-repeat:repeat-;
+}
+
+/* HTAG */
+
+.htag{
+	font-family: 'Asap', 'sans-serif';
+	font-size: 70px;
+	background-color: rgba(24,22,22,0.8);
+	color: rgba(255,255,255,1);
+	height: auto;
+	padding: 30px 90px 20px 50px;
+	position: fixed;
+	z-index: 11;
+	left: 0;
+	bottom: 0;
+	-webkit-border-top-right-radius: 82px;
+	-moz-border-radius-topright: 82px;
+	border-top-right-radius: 82px;
+}
+
 
 .clearfix:before,
 .clearfix:after {

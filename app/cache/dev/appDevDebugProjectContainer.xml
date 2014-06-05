@@ -422,7 +422,6 @@
     <parameter key="assetic.cache_dir">/home/pierrel/apps/instawall/app/cache/dev/assetic</parameter>
     <parameter key="assetic.bundles" type="collection">
       <parameter>DC3InstawallBundle</parameter>
-      <parameter>DC3InstawallBundle</parameter>
     </parameter>
     <parameter key="assetic.twig_extension.class">Symfony\Bundle\AsseticBundle\Twig\AsseticExtension</parameter>
     <parameter key="assetic.twig_formula_loader.class">Assetic\Extension\Twig\TwigFormulaLoader</parameter>
@@ -2101,7 +2100,6 @@
             <argument>true</argument>
             <argument type="collection"/>
             <argument type="collection">
-              <argument>DC3InstawallBundle</argument>
               <argument>DC3InstawallBundle</argument>
             </argument>
             <argument type="service" id="assetic.value_supplier.default" on-invalid="null"/>

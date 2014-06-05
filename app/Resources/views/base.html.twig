@@ -21,10 +21,11 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
 		<![endif]-->
 		{% block maps %}{% endblock %}
-		{% javascripts '@DC3InstawallBundle/Resources/public/js/modernizr.min.js'
-		'@DC3InstawallBundle/Resources/public/js/classie.js'
-        '@DC3InstawallBundle/Resources/public/js/photostack.js'
-        '@DC3InstawallBundle/Resources/public/js/maps.js'
+		{% javascripts 
+			'@DC3InstawallBundle/Resources/public/js/modernizr.min.js'
+			'@DC3InstawallBundle/Resources/public/js/classie.js'
+	        '@DC3InstawallBundle/Resources/public/js/photostack.js'
+	        '@DC3InstawallBundle/Resources/public/js/maps.js'
 		%}
 		    <script src="{{ asset_url }}"></script>
 		{% endjavascripts %}	
