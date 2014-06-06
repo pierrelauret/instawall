@@ -206,6 +206,12 @@ if ( typeof define === 'function' && define.amd ) {
   		},
   		getItems: function() {
 	  		return ps.items;
+  		},
+  		getItem: function(Id) {  			
+	  		return ps.items[Id];
+  		},
+  		getCurrentItem: function() {  			
+	  		return ps.current;
   		}
   	}
 	}
@@ -330,7 +336,7 @@ if ( typeof define === 'function' && define.amd ) {
 			return false;
 		}
 		
-		console.log('showphoto');
+		//console.log('showphoto');
 		this.isShuffling = true;
 
 		// if there is something behind..
