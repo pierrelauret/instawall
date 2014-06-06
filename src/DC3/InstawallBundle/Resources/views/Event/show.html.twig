@@ -109,7 +109,7 @@ $(window).load(function() {
    function reload(b){
    	
 
-		console.log(photostack.getItems().length);
+		//console.log(photostack.getItems().length);
    		var IsNewImage = false;
 	   	$.ajax ({
 	   		type : "GET",
@@ -129,7 +129,12 @@ $(window).load(function() {
 				 	
 				 	var figures = $('#photostack-1 div figure');
 				 	console.log(figures);
-				 	figures[0].remove();		 	
+				 	//pour supprimer la derniere image si plus de 100 image
+				 	if (photostack.getItems().length >100){
+					 	$(figures[0]).fadeOut(function () {
+					 		$(this).remove();
+					 	});
+				 	}
 				 	console.log(figures.length);
 					$('#photostack-1 div').append(newFigure);
 					
@@ -144,7 +149,7 @@ $(window).load(function() {
 								photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
 						   			start:'last'
 						   		});
-						   		setTimeout(reload, 1000);
+						   		setTimeout(reload, 5000);
 
 					        }
 					    });
@@ -177,7 +182,7 @@ $(window).load(function() {
 			 	}).done(function(data) {
 				 	imageShow.find('.like').html(data.LIKES+' j\'aime');
 				 	photostack.open(randomImage);
-				 	setTimeout(reload, 1000);
+				 	setTimeout(reload, 5000);
 
 
 			 	}).error(function(){
@@ -198,7 +203,7 @@ $(window).load(function() {
 	function randomImagePS(ps){
 		var randomImage = Math.floor(Math.random() * ps.getItems().length);
 		
-		if(randomImage == photostack.getCurrentItem()) {
+		if(randomImage>1 && randomImage == photostack.getCurrentItem()) {
 			console.log('same');
 			return randomImagePS(ps); 	
 		}
