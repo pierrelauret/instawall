@@ -1,5 +1,6 @@
 
 @import url(http://fonts.googleapis.com/css?family=Asap:700,700italic);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300italic,300,400italic,400,500italic,500,700italic,700);
 
 *, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 
@@ -70,19 +71,20 @@ body {
 /* HTAG */
 
 .htag{
-	font-family: 'Asap', 'sans-serif';
+	font-family: 'Ubuntu', 'sans-serif';
+	font-weight: 700;
 	font-size: 70px;
 	background-color: rgba(24,22,22,0.8);
 	color: rgba(255,255,255,1);
 	height: auto;
-	padding: 30px 90px 20px 50px;
+	padding: 20px 50px 30px 90px;
 	position: fixed;
 	z-index: 11;
-	left: 0;
-	bottom: 0;
-	-webkit-border-top-right-radius: 82px;
-	-moz-border-radius-topright: 82px;
-	border-top-right-radius: 82px;
+	right: 0;
+	top: 0;
+	-webkit-border-bottom-left-radius: 82px;
+	-moz-border-radius-bottomleftt: 82px;
+	border-bottom-left-radius: 82px;
 }
 
 
