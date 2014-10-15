@@ -26,6 +26,7 @@
 			'@DC3InstawallBundle/Resources/public/js/classie.js'
 	        '@DC3InstawallBundle/Resources/public/js/photostack.js'
 	        '@DC3InstawallBundle/Resources/public/js/maps.js'
+	        filter='uglifyjs2'
 		%}
 		    <script src="{{ asset_url }}"></script>
 		{% endjavascripts %}	
@@ -38,7 +39,7 @@
         {% javascripts 
         	'@DC3InstawallBundle/Resources/public/js/main.js'
         	'@DC3InstawallBundle/Resources/public/js/bootstrap.js'
-			'@DC3InstawallBundle/Resources/public/js/script.js'
+        	filter='uglifyjs2'
 		%}
 		    <script src="{{ asset_url }}"></script>
 		{% endjavascripts %}

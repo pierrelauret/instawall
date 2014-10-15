@@ -87,6 +87,21 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
         return $this->getDescriptionTestData(ObjectsProvider::getContainerAliases());
     }
 
+    /** @dataProvider getDescribeContainerParameterTestData */
+    public function testDescribeContainerParameter($parameter, $expectedDescription, array $options)
+    {
+        $this->assertDescription($expectedDescription, $parameter, $options);
+    }
+
+    public function getDescribeContainerParameterTestData()
+    {
+        $data = $this->getDescriptionTestData(ObjectsProvider::getContainerParameter());
+
+        array_push($data[0], array('parameter' => 'database_name'));
+
+        return $data;
+    }
+
     abstract protected function getDescriptor();
     abstract protected function getFormat();
 
@@ -95,7 +110,12 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
         $options['raw_output'] = true;
         $output = new BufferedOutput(BufferedOutput::VERBOSITY_NORMAL, true);
         $this->getDescriptor()->describe($output, $describedObject, $options);
-        $this->assertEquals(trim($expectedDescription), trim(str_replace(PHP_EOL, "\n", $output->fetch())));
+
+        if ('json' === $this->getFormat()) {
+            $this->assertEquals(json_decode($expectedDescription), json_decode($output->fetch()));
+        } else {
+            $this->assertEquals(trim($expectedDescription), trim(str_replace(PHP_EOL, "\n", $output->fetch())));
+        }
     }
 
     private function getDescriptionTestData(array $objects)
@@ -115,7 +135,7 @@ abstract class AbstractDescriptorTest extends \PHPUnit_Framework_TestCase
             'services' => array('show_private' => true),
             'public'   => array('show_private' => false),
             'tag1'     => array('show_private' => true, 'tag' => 'tag1'),
-            'tags'     => array('group_by' => 'tags', 'show_private' => true)
+            'tags'     => array('group_by' => 'tags', 'show_private' => true),
         );
 
         $data = array();

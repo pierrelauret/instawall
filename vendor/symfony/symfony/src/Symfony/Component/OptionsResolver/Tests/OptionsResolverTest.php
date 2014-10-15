@@ -623,7 +623,7 @@ class OptionsResolverTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals(array(
-            'foo' => 'bar'
+            'foo' => 'bar',
         ), $this->resolver->resolve(array()));
     }
 
@@ -637,7 +637,7 @@ class OptionsResolverTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->assertEquals(array(
-            'foo' => 'bar'
+            'foo' => 'bar',
         ), $this->resolver->resolve(array()));
     }
 
@@ -652,7 +652,46 @@ class OptionsResolverTest extends \PHPUnit_Framework_TestCase
 
         $options = array(
             'one' => '1',
-            'two' => '2'
+            'two' => '2',
+        );
+
+        $this->assertEquals($options, $this->resolver->resolve($options));
+    }
+
+    public function testResolveSucceedsIfValueAllowedCallbackReturnsTrue()
+    {
+        $this->resolver->setRequired(array(
+            'test',
+        ));
+        $this->resolver->setAllowedValues(array(
+            'test' => function ($value) {
+                return true;
+            },
+        ));
+
+        $options = array(
+            'test' => true,
+        );
+
+        $this->assertEquals($options, $this->resolver->resolve($options));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
+    public function testResolveFailsIfValueAllowedCallbackReturnsFalse()
+    {
+        $this->resolver->setRequired(array(
+            'test',
+        ));
+        $this->resolver->setAllowedValues(array(
+            'test' => function ($value) {
+                return false;
+            },
+        ));
+
+        $options = array(
+            'test' => true,
         );
 
         $this->assertEquals($options, $this->resolver->resolve($options));

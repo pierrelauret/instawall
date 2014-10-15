@@ -215,7 +215,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
         $form = $this->factory->createNamed('name', 'text');
         $html = $this->renderLabel($form->createView(), null, array(
             'attr' => array(
-                'class' => 'my&class'
+                'class' => 'my&class',
             ),
         ));
 
@@ -232,7 +232,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
         $form = $this->factory->createNamed('name', 'text');
         $html = $this->renderLabel($form->createView(), null, array(
             'label_attr' => array(
-                'class' => 'my&class'
+                'class' => 'my&class',
             ),
         ));
 
@@ -249,7 +249,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
         $form = $this->factory->createNamed('name', 'text');
         $html = $this->renderLabel($form->createView(), 'Custom label', array(
             'label_attr' => array(
-                'class' => 'my&class'
+                'class' => 'my&class',
             ),
         ));
 
@@ -270,7 +270,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
         ));
         $html = $this->renderLabel($form->createView(), null, array(
             'label_attr' => array(
-                'class' => 'my&class'
+                'class' => 'my&class',
             ),
         ));
 
@@ -556,7 +556,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
             'required' => true,
             'multiple' => false,
             'expanded' => false,
-            'empty_value' => 'Test&Me'
+            'empty_value' => 'Test&Me',
         ));
 
         // The "disabled" attribute was removed again due to a bug in the
@@ -636,6 +636,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->createNamed('name', 'choice', array('&a'), array(
             'choices' => array('&a' => 'Choice&A', '&b' => 'Choice&B'),
+            'required' => true,
             'multiple' => true,
             'expanded' => false,
         ));
@@ -643,6 +644,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
         $this->assertWidgetMatchesXpath($form->createView(), array(),
 '/select
     [@name="name[]"]
+    [@required="required"]
     [@multiple="multiple"]
     [
         ./option[@value="&a"][@selected="selected"][.="[trans]Choice&A[/trans]"]
@@ -659,7 +661,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
             'choices' => array('&a' => 'Choice&A', '&b' => 'Choice&B'),
             'multiple' => true,
             'expanded' => false,
-            'empty_value' => 'Test&Me'
+            'empty_value' => 'Test&Me',
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
@@ -725,7 +727,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
             'choices' => array('&a' => 'Choice&A', '&b' => 'Choice&B'),
             'multiple' => false,
             'expanded' => true,
-            'empty_value' => 'Test&Me'
+            'empty_value' => 'Test&Me',
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
@@ -1252,7 +1254,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     public function testEmailWithMaxLength()
     {
         $form = $this->factory->createNamed('name', 'email', 'foo&bar', array(
-            'max_length' => 123,
+            'attr' => array('maxlength' => 123),
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
@@ -1418,7 +1420,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     public function testPasswordWithMaxLength()
     {
         $form = $this->factory->createNamed('name', 'password', 'foo&bar', array(
-            'max_length' => 123,
+            'attr' => array('maxlength' => 123),
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
@@ -1489,13 +1491,13 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     public function testTextarea()
     {
         $form = $this->factory->createNamed('name', 'textarea', 'foo&bar', array(
-            'pattern' => 'foo',
+            'attr' => array('pattern' => 'foo'),
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
 '/textarea
     [@name="name"]
-    [not(@pattern)]
+    [@pattern="foo"]
     [.="foo&bar"]
 '
         );
@@ -1518,7 +1520,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     public function testTextWithMaxLength()
     {
         $form = $this->factory->createNamed('name', 'text', 'foo&bar', array(
-            'max_length' => 123,
+            'attr' => array('maxlength' => 123),
         ));
 
         $this->assertWidgetMatchesXpath($form->createView(), array(),
@@ -1824,7 +1826,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->create('form', null, array(
             'method' => 'get',
-            'action' => 'http://example.com/directory'
+            'action' => 'http://example.com/directory',
         ));
 
         $html = $this->renderStart($form->createView());
@@ -1836,12 +1838,12 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->create('form', null, array(
             'method' => 'put',
-            'action' => 'http://example.com/directory'
+            'action' => 'http://example.com/directory',
         ));
 
         $html = $this->renderStart($form->createView());
 
-        $this->assertMatchesXpath($html . '</form>',
+        $this->assertMatchesXpath($html.'</form>',
 '/form
     [./input[@type="hidden"][@name="_method"][@value="PUT"]]
     [@method="post"]
@@ -1858,7 +1860,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
 
         $html = $this->renderStart($form->createView(), array(
             'method' => 'post',
-            'action' => 'http://foo.com/directory'
+            'action' => 'http://foo.com/directory',
         ));
 
         $this->assertSame('<form name="form" method="post" action="http://foo.com/directory">', $html);
@@ -1868,7 +1870,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->createBuilder('form', null, array(
                 'method' => 'get',
-                'action' => 'http://example.com/directory'
+                'action' => 'http://example.com/directory',
             ))
             ->add('file', 'file')
             ->getForm();
@@ -1882,7 +1884,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
     {
         $form = $this->factory->create('form', null, array(
             'method' => 'get',
-            'action' => 'http://example.com/directory'
+            'action' => 'http://example.com/directory',
         ));
 
         $html = $this->renderStart($form->createView(), array(
@@ -1898,9 +1900,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
             'required' => true,
             'disabled' => true,
             'read_only' => true,
-            'max_length' => 10,
-            'pattern' => '\d+',
-            'attr' => array('class' => 'foobar', 'data-foo' => 'bar'),
+            'attr' => array('maxlength' => 10, 'pattern' => '\d+', 'class' => 'foobar', 'data-foo' => 'bar'),
         ));
 
         $html = $this->renderWidget($form->createView());
@@ -1929,8 +1929,7 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
 
         $html = $this->renderWidget($form->createView());
 
-        // no foo
-        $this->assertSame('<input type="text" id="text" name="text" required="required" value="value" />', $html);
+        $this->assertNotContains('foo="', $html);
     }
 
     public function testButtonAttributes()
@@ -1966,7 +1965,38 @@ abstract class AbstractLayoutTest extends \Symfony\Component\Form\Test\FormInteg
 
         $html = $this->renderWidget($form->createView());
 
+        $this->assertNotContains('foo="', $html);
+    }
+
+    public function testTextareaWithWhitespaceOnlyContentRetainsValue()
+    {
+        $form = $this->factory->createNamed('textarea', 'textarea', '  ');
+
+        $html = $this->renderWidget($form->createView());
+
+        $this->assertContains('>  </textarea>', $html);
+    }
+
+    public function testTextareaWithWhitespaceOnlyContentRetainsValueWhenRenderingForm()
+    {
+        $form = $this->factory->createBuilder('form', array('textarea' => '  '))
+            ->add('textarea', 'textarea')
+            ->getForm();
+
+        $html = $this->renderForm($form->createView());
+
+        $this->assertContains('>  </textarea>', $html);
+    }
+
+    public function testWidgetContainerAttributeHiddenIfFalse()
+    {
+        $form = $this->factory->createNamed('form', 'form', null, array(
+            'attr' => array('foo' => false),
+        ));
+
+        $html = $this->renderWidget($form->createView());
+
         // no foo
-        $this->assertSame('<button type="button" id="button" name="button">[trans]Button[/trans]</button>', $html);
+        $this->assertNotContains('foo="', $html);
     }
 }

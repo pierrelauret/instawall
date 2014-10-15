@@ -8,11 +8,76 @@
     filter='cssrewrite'
  
 %}
-		<link href="{{ asset_url }}" rel="stylesheet" />
+		<link rel="stylesheet" href="{{ asset_url }}"  />
 {% endstylesheets %}
 {% endblock %}
 
 {% block body %}
+
+{% if entity.id == 17 %}
+<style>
+.container section { 
+  background: url("{{ asset('bundles/dc3instawall/images/wearedc.jpg') }}") no-repeat center center fixed !important; 
+}
+
+.htag {
+	background-color: rgba(3,4,28,0.8) !important;
+}
+
+.bandeau {
+font-family: 'GothamBold', 'sans-serif';
+font-weight: 700;
+font-size: 50px;
+background-color: rgba(3,4,28,0.2);
+color: rgba(255,255,255,1);
+height: auto;
+padding: 15px 30px 10px 30px;
+text-align: center;
+position: fixed;
+z-index: 11;
+right: 0;
+width: 100%;
+top: 0;
+}
+
+.bandeau img {
+margin-top: 3px;
+margin-bottom: 20px;
+width: 140px;
+display: block;
+margin: auto;
+}
+
+.bandeau span {
+	margin-top: 10px;
+	display: block;
+}
+</style>
+{% endif %}
+
+{% if entity.id == 18 %}
+<style>
+.container section { 
+  background: url("{{ asset('bundles/dc3instawall/images/fond.png') }}") no-repeat center center fixed !important; 
+}
+
+.htag {
+font-family: 'GothamBold', 'sans-serif';
+font-weight: 700;
+font-size: 40px;
+background-color: rgba(100,26,69,0.8);
+color: rgba(255,255,255,1);
+height: auto;
+padding: 15px 30px 10px 30px;
+text-align: right;
+position: fixed;
+z-index: 11;
+right: 0;
+width: 100%;
+bottom: 0;
+}
+</style>
+{% endif %}
 
 <div class="container">	
 	<div class="loadconteneur">
@@ -20,12 +85,27 @@
 		<p>Chargement</p>
 		</div>	
 	</div>
+	{% if entity.id == 17 %}
+	<div class="bandeau">
+	<img src="{{ asset('bundles/dc3instawall/images/LOGO_DIGITAL.png') }}" alt="instagram-logo-white-png" />
+	<span>WE ARE DC</span>
+	</div>
+	{% endif %}
 <!-- 	<div class="htag" style="display:none;" >#{{ entity.hTag }}</div> -->
 	<section style="display:none;" id="photostack-1" class="photostack ">
 		<div>
 		{% for pic in pics %}
 				<figure data-picid="{{ pic.id }}">	
-					<img id="{{ pic.id }}" src="{{ pic.url }}" alt="img01"/>	
+					
+						<img id="{{ pic.id }}" src="{{ pic.url }}" alt="img01"/>
+					
+					{% if pic.comment != '' %}					
+					<span class="picled">
+						<p class="legende">
+							<span>{{ pic.comment|length > 120 ? pic.comment|slice(0, 120) ~ '...' : pic.comment }}</span>
+						</p>
+					</span>	
+					{% endif %}
 					<figcaption>
 						<p class="photostack-title"><img src="{{ pic.userPic }}" alt="userpic"><span id="name">{{ pic.userName }}</span><span class="like">{{ pic.likeCount }} j'aime</span></p>
 					</figcaption>
@@ -33,7 +113,11 @@
 		{% endfor %}
 		</div>
 	</section>
-	<div class="htag">#{{ entity.hTag }}</div>
+	<div class="htag">
+	<span>
+	<img src="{{ asset('bundles/dc3instawall/images/instagram-logo.png') }}" alt="instagram-logo-white-png" />
+	#{{ entity.hTag }}</span>
+	</div>
 </div>
 {% endblock %}
 
@@ -69,47 +153,10 @@ $(window).load(function() {
 	   }
    });    
    
-   
-/*
-   function randomInt(mini, maxi) {
-		var nb = mini + (maxi+1-mini)*Math.random();
-		return Math.floor(nb);
-	}
-	
-	Array.prototype.shuffle = function(n)
-	{
-		if(!n)
-			n = this.length;
-		if(n > 1)
-		{
-			var i = randomInt(0, n-1);
-			var tmp = this[i];
-			this[i] = this[n-1];
-			this [n-1] = tmp;
-			this.shuffle(n-1);
-		}
-	}
-*/
-	
-/*
-	var values = [];
-	function newChainRandom(){
-		
-	
-		for (var i = 0; i < photostack.getItems().length; ++i){
-	    values.push(i);
-		}
-		
-		//values.shuffle();
-		console.log(values);
-	}
-*/
-	
 
    function reload(b){
    	
 
-		//console.log(photostack.getItems().length);
    		var IsNewImage = false;
 	   	$.ajax ({
 	   		type : "GET",
@@ -122,19 +169,31 @@ $(window).load(function() {
 			 	
 			 	if ($("img[src$='"+data[i].URL+"']").length==0){
 			 	IsNewImage = true;
-			 		console.log('image  no existe');
-				 	var newFigure = $('<figure data-picid="'+data[i].PICID+'"><img src="'+data[i].URL+'" alt="img01"><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span class="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
+			 		console.log('image no existe');
+			 		if(data[i].COMMENT.length > 120){
+				        data[i].COMMENT = data[i].COMMENT.substr(0, 120)+'...';
+				    }
+				    
+				    if (data[i].COMMENT.length == 0) {
+					    var newFigure = $('<figure data-picid="'+data[i].PICID+'"><img src="'+data[i].URL+'" alt="img01"><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span class="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
+				 	
+				    } else {
+				    
+				    var newFigure = $('<figure data-picid="'+data[i].PICID+'"><img src="'+data[i].URL+'" alt="img01"><span class="picled"><p class="legende"><span>'+data[i].COMMENT+'</span></p></span><figcaption><p class="photostack-title"><img src="'+data[i].USERPIC+'" alt="userpic"><span id="name">'+data[i].USERNAME+'</span><span class="like">'+data[i].LIKES+' j\'aime</span></p></figcaption></figure>');
+				    
+				    }
 				 	newFigure.hide();
-				 		
 				 	
 				 	var figures = $('#photostack-1 div figure');
 				 	console.log(figures);
 				 	//pour supprimer la derniere image si plus de 100 image
-				 	if (photostack.getItems().length >100){
-					 	$(figures[0]).fadeOut(function () {
-					 		$(this).remove();
-					 	});
-				 	}
+				 	if (photostack.allItemsCount != 0){
+					 	if (photostack.getItems().length >100){
+						 	$(figures[0]).fadeOut(function () {
+						 		$(this).remove();
+						 	});
+					 	}
+					}
 				 	console.log(figures.length);
 					$('#photostack-1 div').append(newFigure);
 					
@@ -149,7 +208,7 @@ $(window).load(function() {
 								photostack =  new Photostack(document.getElementById( 'photostack-1' ), {
 						   			start:'last'
 						   		});
-						   		setTimeout(reload, 5000);
+						   		setTimeout(reload, 2000);
 
 					        }
 					    });
@@ -168,27 +227,30 @@ $(window).load(function() {
 	
 		
 				console.log('search images');
-				
-			 	var randomImage = randomImagePS(photostack);
-			 			 					
-				console.log(randomImage);
-				console.log(photostack.getCurrentItem());
-			 	var imageShow = $(photostack.getItem(randomImage));		 	
-			 	var picid = imageShow.data('picid');
-			 	$.ajax ({
-			   		type : "GET",
-				 	url: "/app_dev.php/pic/"+picid +"/instagram-update",
-				 	dataType : "json"
-			 	}).done(function(data) {
-				 	imageShow.find('.like').html(data.LIKES+' j\'aime');
-				 	photostack.open(randomImage);
-				 	setTimeout(reload, 5000);
-
-
-			 	}).error(function(){
-				 	//setTimeout(reload, 1000);
-			 	});
-			 	
+				console.log(photostack);
+				if (photostack.allItemsCount != 0){
+					var randomImage = randomImagePS(photostack);
+				 			 					
+					//console.log(randomImage);
+					//console.log(photostack.getCurrentItem());
+				 	var imageShow = $(photostack.getItem(randomImage));		 	
+				 	var picid = imageShow.data('picid');
+				 	$.ajax ({
+				   		type : "GET",
+					 	url: "/app_dev.php/pic/"+picid +"/instagram-update",
+					 	dataType : "json"
+				 	}).done(function(data) {
+					 	imageShow.find('.like').html(data.LIKES+' j\'aime');
+					 	photostack.open(randomImage);
+					 	setTimeout(reload, 2000);
+				 	}).error(function(){
+					 	//setTimeout(reload, 1000);
+				 	});
+				}
+				else {
+					setTimeout(reload, 2000);
+				}
+			 				 	
 
 
 		 	}	
@@ -201,13 +263,14 @@ $(window).load(function() {
 	reload(0);
 	
 	function randomImagePS(ps){
+
 		var randomImage = Math.floor(Math.random() * ps.getItems().length);
-		
-		if(randomImage>1 && randomImage == photostack.getCurrentItem()) {
+		console.log(randomImage);
+		console.log(photostack.getCurrentItem());
+		if ( randomImage == photostack.getCurrentItem()) {
 			console.log('same');
 			return randomImagePS(ps); 	
-		}
-		else {
+		} else {
 			return randomImage;
 		}
 		

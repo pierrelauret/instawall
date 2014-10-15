@@ -433,21 +433,21 @@ class DateTimeTypeTest extends TypeTestCase
 
         $form['date']->addError($error);
 
-        $this->assertSame(array(), $form['date']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['date']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     public function testDateTypeSingleTextErrorsBubbleUp()
     {
         $error = new FormError('Invalid!');
         $form = $this->factory->create('datetime', null, array(
-            'date_widget' => 'single_text'
+            'date_widget' => 'single_text',
         ));
 
         $form['date']->addError($error);
 
-        $this->assertSame(array(), $form['date']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['date']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     public function testTimeTypeChoiceErrorsBubbleUp()
@@ -457,21 +457,20 @@ class DateTimeTypeTest extends TypeTestCase
 
         $form['time']->addError($error);
 
-        $this->assertSame(array(), $form['time']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['time']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
 
     public function testTimeTypeSingleTextErrorsBubbleUp()
     {
         $error = new FormError('Invalid!');
         $form = $this->factory->create('datetime', null, array(
-            'time_widget' => 'single_text'
+            'time_widget' => 'single_text',
         ));
 
         $form['time']->addError($error);
 
-        $this->assertSame(array(), $form['time']->getErrors());
-        $this->assertSame(array($error), $form->getErrors());
+        $this->assertSame(array(), iterator_to_array($form['time']->getErrors()));
+        $this->assertSame(array($error), iterator_to_array($form->getErrors()));
     }
-
 }

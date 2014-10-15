@@ -11,4 +11,6 @@ require_once __DIR__.'/../src/DC3/InstawallBundle/utils/Instagram.class.php';
 
 AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
 
+/* $loader->add('NSM', __DIR__.'/../vendor/bundles'); */
+
 return $loader;

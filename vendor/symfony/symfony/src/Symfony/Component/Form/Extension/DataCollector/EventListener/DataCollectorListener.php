@@ -36,7 +36,7 @@ class DataCollectorListener implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -81,5 +81,4 @@ class DataCollectorListener implements EventSubscriberInterface
             $this->dataCollector->buildPreliminaryFormTree($event->getForm());
         }
     }
-
 }

@@ -178,6 +178,7 @@ class EventController extends Controller
 			$PicTempArray['USERPIC'] = $pic->getUserPic();
 			$PicTempArray['USERNAME'] = $pic->getUserName();
 			$PicTempArray['LIKES'] = $pic->getLikeCount();
+			$PicTempArray['COMMENT'] = $pic->getComment();
 			
 			
 			$PicArray[] = $PicTempArray;

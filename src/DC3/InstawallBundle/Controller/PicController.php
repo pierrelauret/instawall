@@ -149,17 +149,21 @@ class PicController extends Controller
 			'apiCallback'=>'http://intagram.nicolasa.dc3'
 		));
 		
-		$resp = $Insta->getMedia($entity->getPictureId());		
-		$like_count = $resp->data->likes->count;
-		$entity->setLikeCount($like_count);
-		$em->persist($entity);
-		$em->flush(); // sauvegarde moi les données dans la base de donnée
+		$resp = $Insta->getMedia($entity->getPictureId());
+		if (!empty($resp->data->likes->count)) {
+		 	$like_count = $resp->data->likes->count;
+			$entity->setLikeCount($like_count);
+			$em->persist($entity);
+			$em->flush(); // sauvegarde moi les données dans la base de donnée
+		}	
+
 		
 		$PicTempArray['URL'] = $entity->getUrl();
 		$PicTempArray['ID'] = $entity->getPictureId();
 		$PicTempArray['USERPIC'] = $entity->getUserPic();
 		$PicTempArray['USERNAME'] = $entity->getUserName();
 		$PicTempArray['LIKES'] = $entity->getLikeCount();
+		$PicTempArray['COMMENT'] = $entity->getComment();
 		
 		return new Response(json_encode($PicTempArray));
     }

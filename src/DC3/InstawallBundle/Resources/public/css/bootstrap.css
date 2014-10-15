@@ -21,6 +21,7 @@ summary {
   display: block;
 }
 
+
 audio,
 canvas,
 video {
@@ -307,7 +308,11 @@ body {
   font-size: 14px;
   line-height: 1.428571429;
   color: #333333;
-  background-color: #ffffff;
+  background: #fff;
+}
+
+.home {
+	background: #000629;
 }
 
 input,
@@ -5226,8 +5231,8 @@ a.list-group-item.active > .badge,
   font-size: 21px;
   font-weight: 200;
   line-height: 2.1428571435;
-  color: inherit;
-  background-color: #eeeeee;
+  color: #f2f2f2;
+  background-color: rgba(245, 245, 245, 0.2);
 }
 
 .jumbotron h1,
